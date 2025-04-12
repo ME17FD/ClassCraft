@@ -3,7 +3,8 @@ package com.ClassCraft.classcraft;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+
+@SpringBootApplication()
 public class ClasscraftApplication {
 
 	public static void main(String[] args) {
