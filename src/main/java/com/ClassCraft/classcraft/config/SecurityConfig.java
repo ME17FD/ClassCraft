@@ -1,4 +1,4 @@
-package com.ClassCraft.classcraft;
+package com.ClassCraft.classcraft.config;
 
 import java.util.List;
 
