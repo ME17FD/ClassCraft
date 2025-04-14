@@ -1,12 +1,24 @@
+// src/App.js
 import React from 'react';
-import HelloWorld from './Helloworld';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/LoginForm';
+import Signup from './pages/SignupForm';
+import Home from './pages/Home';
 
 function App() {
-  return (
-    <div className="App">
-      <HelloWorld />
-    </div>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <h1>ClassCraft</h1>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/" element={<Login />} />
+                </Routes>
+            </div>
+        </Router>
+    );
 }
 
 export default App;

@@ -2,7 +2,6 @@ package com.ClassCraft.classcraft.service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,62 +16,67 @@ import com.ClassCraft.classcraft.model.User;
 @Service
 public class AuthService {
 
-    private final ConcurrentHashMap<String, User> users = new ConcurrentHashMap<>();
-
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    public AuthService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+    private PasswordEncoder passwordEncoder;
 
+    // Login method to authenticate user
     public User login(LoginRequest request) {
-        User user = users.get(request.getUsername());
-        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getHashedPassword())) {
+        User user = userService.findUserByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getHashedPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
         return user;
     }
 
+    // Register method to register a new user
     public User register(SignupRequest request) {
-        if (users.containsKey(request.getUsername())) {
+        if (userService.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already taken");
         }
 
-        boolean emailExists = users.values().stream()
-                .anyMatch(u -> u.getEmail().equalsIgnoreCase(request.getEmail()));
-        if (emailExists) {
+        if (userService.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered");
         }
 
-        // Validate and extract roles from the request
+        // Add roles directly as ERole
         Set<ERole> roles = request.getRoles().stream()
-                .map(role -> {
-                    try {
-                        return ERole.valueOf(role.name());  // Convert each role string to an enum
-                    } catch (IllegalArgumentException e) {
-                        throw new RuntimeException("Invalid role: " + role.name());
-                    }
-                })
                 .collect(Collectors.toSet());
 
-        // If no roles are specified, default to ROLE_STUDENT
+        // If no roles are provided, default to ROLE_STUDENT
         if (roles.isEmpty()) {
-            roles.add(ERole.ROLE_STUDENT);
+            roles.add(ERole.ROLE_STUDENT);  // Default role if none provided
         }
 
+        // Create the new user with the appropriate roles
         User newUser = new User(
                 request.getUsername(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
-                roles 
+                roles
         );
 
-        users.put(newUser.getUsername(), newUser);
-        return newUser;
+        // Save the user to the database
+        return userService.registerUser(
+                newUser.getUsername(),
+                newUser.getEmail(),
+                newUser.getHashedPassword(),
+                roles
+        );
     }
 
+    // Method to get all users (optional)
     public List<User> getAllUsers() {
-        return List.copyOf(users.values());
+        return userService.getAllUsers();
+    }
+
+    public void deleteUser(String username) {
+        userService.findUserByUsername(username).ifPresent(user -> {
+            userService.deleteUserByUsername(username);
+        });
     }
 }

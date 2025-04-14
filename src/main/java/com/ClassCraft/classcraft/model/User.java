@@ -3,14 +3,16 @@ package com.ClassCraft.classcraft.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
@@ -42,32 +44,32 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-               joinColumns = @JoinColumn(name = "user_id"),
-               inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @ElementCollection(targetClass = ERole.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<ERole> roles = new HashSet<>();
 
     // Constructors
     public User() {}
-
+    
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
     // Constructor for a single role (for backwards compatibility)
-    public User(String username, String email, String password, Role role) {
+    public User(String username, String email, String password, ERole role) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.roles.add(role);
     }
 
-    // New constructor to accept multiple roles as a Set of ERole
     public User(String username, String email, String password, Set<ERole> roles) {
         this.username = username;
         this.email = email;
         this.password = password;
-        // Convert each ERole to a Role entity and add it to the set
-        for (ERole role : roles) {
-            this.roles.add(new Role(role));
-        }
+        this.roles.addAll(roles);  // Add all roles directly
     }
 
     // Getters and Setters
@@ -79,6 +81,11 @@ public class User {
     public void setEmail(String email) { this.email = email; }
     public String getHashedPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
-    public Set<Role> getRoles() { return roles; }
-    public void setRoles(Set<Role> roles) { this.roles = roles; }
+    public Set<ERole> getRoles() { return roles; }
+    public void setRoles(Set<ERole> roles) { this.roles = roles; }
+    public void addRole(ERole role) {
+        
+        this.roles.add( role);  // Convert each ERole to Role and add it
+        
+    }
 }
