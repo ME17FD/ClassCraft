@@ -1,148 +1,134 @@
 // src/pages/LoginForm.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
-  Container, Row, Col, Card, Form, Button, 
-  Alert, Spinner, Image, Badge
+  Container, 
+  Card, 
+  Form, 
+  Button, 
+  Alert, 
+  Spinner,
+  Row,
+  Col,
+  Image 
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AuthService from '../services/AuthService';
-//import campusIllustration from '../assets/campus-auth.svg';
+import classcraftLogo from '../assets/classcraft-logo.png'; // Add your logo
 
 const loginSchema = yup.object().shape({
-  username: yup.string().required('University ID is required'),
+  username: yup.string().required('Username is required'),
   password: yup.string().required('Password is required')
 });
 
 function Login() {
   const navigate = useNavigate();
-  const [error, setError] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(loginSchema)
   });
 
+  useEffect(() => {
+    const currentUser = AuthService.getCurrentUser();
+    if (currentUser) {
+      navigate('/home');
+    }
+  }, [navigate]);
+
   const onSubmit = async (data) => {
-    setError('');
+    setErrorMessage('');
     setIsLoading(true);
+    
     try {
       await AuthService.login(data.username, data.password);
-      navigate('/dashboard');
-    } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      navigate('/home');
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Container fluid className="auth-container px-0">
-      <Row className="g-0 min-vh-100">
-        {/* Left Panel - Illustration */}
-        <Col md={6} className="d-none d-md-flex bg-academic">
-          <div className="d-flex flex-column justify-content-center align-items-center p-5 text-white">
-            
-            <h2 className="text-center mb-3">University Resource Planner</h2>
-            <div className="d-flex gap-2">
-              <Badge bg="light" text="dark" className="px-3 py-2">
-                <i className="fas fa-calendar-check me-2"></i> Room Booking
-              </Badge>
-              <Badge bg="light" text="dark" className="px-3 py-2">
-                <i className="fas fa-chalkboard me-2"></i> Timetable Management
-              </Badge>
-            </div>
-          </div>
-        </Col>
+    <Container fluid className="min-vh-100 d-flex align-items-center bg-light">
+      <Row className="justify-content-center w-100">
+        <Col md={8} lg={6} xl={5}>
+          <Card className="shadow-sm border-0">
+            <Card.Body className="p-5">
+              <div className="text-center mb-4">
+                <Image 
+                  src={classcraftLogo} 
+                  alt="ClassCraft Logo" 
+                  height="60"
+                  className="mb-3"
+                />
+                <h2 className="text-primary">Welcome Back</h2>
+                <p className="text-muted">Please sign in to continue</p>
+              </div>
 
-        {/* Right Panel - Login Form */}
-        <Col md={6} className="d-flex align-items-center">
-          <Container className="py-5">
-            <Row className="justify-content-center">
-              <Col lg={9} xl={8}>
-                <Card className="border-0 shadow-sm">
-                  <Card.Body className="p-4 p-sm-5">
-                    <div className="text-center mb-4">
-                      <h3 className="fw-bold text-primary">
-                        <i className="fas fa-university me-2"></i> University Login
-                      </h3>
-                      <p className="text-muted">Access your academic planning tools</p>
-                    </div>
+              {errorMessage && (
+                <Alert variant="danger" className="text-center">
+                  {errorMessage}
+                </Alert>
+              )}
 
-                    {error && <Alert variant="danger">{error}</Alert>}
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    {...register('username')}
+                    isInvalid={!!errors.username}
+                    placeholder="Enter your username"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.username?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                      <Form.Group className="mb-3">
-                        <Form.Label>University ID</Form.Label>
-                        <Form.Control
-                          type="text"
-                          {...register('username')}
-                          isInvalid={!!errors.username}
-                          placeholder="e.g. jsmith001 or P12345"
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.username?.message}
-                        </Form.Control.Feedback>
-                      </Form.Group>
+                <Form.Group className="mb-4">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    {...register('password')}
+                    isInvalid={!!errors.password}
+                    placeholder="Enter your password"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
-                      <Form.Group className="mb-4">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                          type="password"
-                          {...register('password')}
-                          isInvalid={!!errors.password}
-                          placeholder="Enter your password"
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.password?.message}
-                        </Form.Control.Feedback>
-                      </Form.Group>
+                <Button 
+                  variant="primary" 
+                  type="submit" 
+                  className="w-100 mb-3 py-2 fw-bold"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <Spinner as="span" animation="border" size="sm" role="status" />
+                  ) : 'Sign In'}
+                </Button>
 
-                      <div className="d-grid mb-3">
-                        <Button 
-                          variant="primary" 
-                          type="submit"
-                          disabled={isLoading}
-                          className="py-2"
-                        >
-                          {isLoading ? (
-                            <Spinner as="span" size="sm" animation="border" />
-                          ) : (
-                            <>
-                              <i className="fas fa-sign-in-alt me-2"></i> Sign In
-                            </>
-                          )}
-                        </Button>
-                      </div>
-
-                      <div className="text-center mb-4">
-                        <Link to="/forgot-password" className="text-decoration-none small">
-                          Forgot your password?
-                        </Link>
-                      </div>
-
-                      <hr className="my-4" />
-
-                      <div className="text-center">
-                        <p className="small text-muted mb-2">Don't have an account?</p>
-                        <Link to="/signup" className="btn btn-outline-primary">
-                          <i className="fas fa-user-plus me-2"></i> Request Access
-                        </Link>
-                      </div>
-                    </Form>
-                  </Card.Body>
-                </Card>
-
-                <div className="text-center mt-3">
-                  <small className="text-muted">
-                    © {new Date().getFullYear()} University Planning System
-                  </small>
+                <div className="text-center mb-3">
+                  <Link to="/forgot-password" className="text-decoration-none">
+                    Forgot password?
+                  </Link>
                 </div>
-              </Col>
-            </Row>
-          </Container>
+
+                <div className="text-center">
+                  <span className="text-muted">Don't have an account? </span>
+                  <Link to="/signup" className="text-decoration-none fw-bold">
+                    Sign Up
+                  </Link>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>
