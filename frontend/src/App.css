@@ -36,3 +36,98 @@
     transform: rotate(360deg);
   }
 }
+
+/* Academic Theme Variables */
+:root {
+  --university-primary: #2c3e50;
+  --university-secondary: #3498db;
+  --university-accent: #e74c3c;
+  --university-light: #ecf0f1;
+  --university-dark: #2c3e50;
+}
+
+/* Auth Layout */
+.auth-container {
+  background-color: #f8f9fa;
+}
+
+.bg-academic {
+  background: linear-gradient(135deg, var(--university-primary), var(--university-dark));
+}
+
+.bg-university {
+  background: linear-gradient(135deg, #2980b9, #2c3e50);
+  background-size: cover;
+}
+
+/* Form Styling */
+.form-control, .form-select {
+  border-radius: 0.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ced4da;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--university-secondary);
+  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+.btn-primary {
+  background-color: var(--university-secondary);
+  border-color: var(--university-secondary);
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+}
+
+/* Card Styling */
+.card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+  .auth-container {
+    background: white;
+  }
+  
+  .bg-academic, .bg-university {
+    display: none !important;
+  }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Badge Styling */
+.badge {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Accordion Styling */
+.accordion-button:not(.collapsed) {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: var(--university-dark);
+}
+
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
