@@ -10,32 +10,19 @@ class AuthService {
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true
     });
-
-    // Request interceptor for token injection
-    this.api.interceptors.request.use(
-      config => {
-        const token = this.getCurrentUser()?.token;
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      error => {
-        return Promise.reject(error);
-      }
-    );
   }
 
-  async login(username, password) {
+  async login(email, password) {
     try {
-      const response = await this.api.post('signin', { username, password });
+      const response = await this.api.post('signin', { 
+        email, 
+        password 
+      });
       
-      if (response.data.accessToken) {
-        this.storeUserData({
-          ...response.data,
-          token: response.data.accessToken // Map to token for consistency
-        });
+      if (response.data) {
+        this.storeUserData(response.data);
       }
       return response.data;
     } catch (error) {
@@ -44,13 +31,14 @@ class AuthService {
     }
   }
 
-  async signup(username, email, password, role) {
+  async signup(firstName, lastName, email, password, role) {
     try {
       const response = await this.api.post('signup', {
-        username,
+        firstName,
+        lastName,
         email,
         password,
-        roles: [role] // Maintain array format for Spring Security
+        roles: [role]
       });
       return response.data;
     } catch (error) {
@@ -70,10 +58,11 @@ class AuthService {
 
   storeUserData(userData) {
     localStorage.setItem('user', JSON.stringify({
-      username: userData.username,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
       email: userData.email,
       roles: userData.roles,
-      token: userData.token || userData.accessToken
+      id: userData.id
     }));
   }
 

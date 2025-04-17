@@ -22,22 +22,14 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     // Register a new user
-    public User registerUser(String username, String email, String password, Set<ERole> roles) {
-        if (userRepository.findByUsername(username).isPresent()) {
-            throw new RuntimeException("Username already taken");
-        }
-    
+    public User registerUser(String firstName, String lastName, String email, String Hashedpassword, Set<ERole> roles) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new RuntimeException("Email already registered");
         }
     
-        User newUser = new User(username, email, password, roles);
-        return userRepository.save(newUser); // This will persist ALL roles
-    }
-
-    // Find a user by username
-    public Optional<User> findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        User newUser = new User(firstName, lastName, email, Hashedpassword);
+        newUser.setRoles(roles);
+        return userRepository.save(newUser);
     }
 
     // Find a user by email
@@ -46,20 +38,19 @@ public class UserService {
     }
 
     // Authenticate user (basic login)
-    public boolean authenticateUser(String username, String password) {
-        Optional<User> userOpt = userRepository.findByUsername(username);
-
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            return passwordEncoder.matches(password, user.getHashedPassword());
-        }
-
-        return false; // User not found
+    public boolean authenticateUser(String email, String password) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        return userOpt.isPresent() && passwordEncoder.matches(password, userOpt.get().getHashedPassword());
     }
 
-    // Method to check if a username already exists
-    public boolean existsByUsername(String username) {
-        return userRepository.findByUsername(username).isPresent();
+    // Delete user by email
+    public boolean deleteUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+            return true;
+        }
+        return false;
     }
 
     // Method to check if an email already exists
@@ -67,26 +58,37 @@ public class UserService {
         return userRepository.findByEmail(email).isPresent();
     }
 
-    // Method to get all users (optional)
+    // Method to get all users
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    
+    // Additional useful methods you might want to consider:
 
-    public boolean deleteUserByUsername(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
-            return true;
+    // Update user information
+    public User updateUser(String email, String firstName, String lastName, String phone) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (firstName != null) user.setFirstName(firstName);
+            if (lastName != null) user.setLastName(lastName);
+            if (phone != null) user.setPhone(phone);
+            return userRepository.save(user);
+        }
+        throw new RuntimeException("User not found with email: " + email);
+    }
+
+    // Update user password
+    public boolean updatePassword(String email, String oldPassword, String newPassword) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (passwordEncoder.matches(oldPassword, user.getHashedPassword())) {
+                user.setPassword(passwordEncoder.encode(newPassword));
+                userRepository.save(user);
+                return true;
+            }
         }
         return false;
-    }
-    
-
-    public int deleteUsersByUsernames(Set<String> usernames) {
-        List<User> usersToDelete = userRepository.findAllByUsernameIn(usernames);
-        userRepository.deleteAll(usersToDelete);
-        return usersToDelete.size();
     }
 }

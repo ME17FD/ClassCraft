@@ -24,9 +24,9 @@ public class AuthService {
 
     // Login method to authenticate user
     public User login(LoginRequest request) {
-        User user = userService.findUserByUsername(request.getUsername())
+        User user = userService.findUserByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
-
+                
         if (!passwordEncoder.matches(request.getPassword(), user.getHashedPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
@@ -35,13 +35,10 @@ public class AuthService {
 
     // Register method to register a new user
     public User register(SignupRequest request) {
-        if (userService.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username already taken");
+        if (userService.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email already taken");
         }
 
-        if (userService.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already registered");
-        }
 
         // Add roles directly as ERole
         Set<ERole> roles = request.getRoles().stream()
@@ -54,7 +51,8 @@ public class AuthService {
 
         // Create the new user with the appropriate roles
         User newUser = new User(
-                request.getUsername(),
+                request.getFirstName(),
+                request.getLastName(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
                 roles
@@ -62,7 +60,8 @@ public class AuthService {
 
         // Save the user to the database
         return userService.registerUser(
-                newUser.getUsername(),
+                newUser.getFirstName(),
+                newUser.getLastName(),
                 newUser.getEmail(),
                 newUser.getHashedPassword(),
                 roles
@@ -74,9 +73,9 @@ public class AuthService {
         return userService.getAllUsers();
     }
 
-    public void deleteUser(String username) {
-        userService.findUserByUsername(username).ifPresent(user -> {
-            userService.deleteUserByUsername(username);
+    public void deleteUser(String email) {
+        userService.findUserByEmail(email).ifPresent(user -> {
+            userService.deleteUserByEmail(email);
         });
     }
 }
