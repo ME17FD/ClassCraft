@@ -109,7 +109,18 @@ public class User {
     public void setApproved(boolean approved) { this.approved = approved; }
     public Set<ERole> getRoles() { return roles; }
     public void setRoles(Set<ERole> roles) { this.roles = roles; }
+    
+
+    // Role management methods
     public void addRole(ERole role) {
         this.roles.add(role);
+    }
+    
+    public boolean hasRole(ERole role) {
+        return this.roles.contains(role);
+    }
+    
+    public void removeRole(ERole role) {
+        this.roles.remove(role);
     }
 }
