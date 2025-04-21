@@ -25,9 +25,10 @@ public class AuthService {
     // Login method to authenticate user
     public User login(LoginRequest request) {
         User user = userService.findUserByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(() -> new RuntimeException("Invalid Email"));
                 
         if (!passwordEncoder.matches(request.getPassword(), user.getHashedPassword())) {
+            System.out.println(passwordEncoder.encode(request.getPassword()) );
             throw new RuntimeException("Invalid credentials");
         }
         return user;

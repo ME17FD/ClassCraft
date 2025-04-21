@@ -23,10 +23,14 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        System.out.println("Received login: " + loginRequest.getEmail() + ", " + loginRequest.getPassword());
+
         try {
             User user = authService.login(loginRequest);
+            System.out.println(user.getEmail());
             return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
