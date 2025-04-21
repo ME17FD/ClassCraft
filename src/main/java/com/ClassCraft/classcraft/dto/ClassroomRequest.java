@@ -1,7 +1,11 @@
 package com.ClassCraft.classcraft.dto;
 
 import com.ClassCraft.classcraft.model.ClassroomStatus;
-import jakarta.validation.constraints.*;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class ClassroomRequest {
     
@@ -13,9 +17,6 @@ public class ClassroomRequest {
     @Min(value = 1, message = "There must be at least 1 chair")
     private Integer chairs;
     
-    @NotNull(message = "Area is required")
-    @Positive(message = "Area must be positive")
-    private Float area;
     
     @NotNull(message = "Projector status is required")
     private Boolean hasProjector;
@@ -37,8 +38,6 @@ public class ClassroomRequest {
     public void setName(String name) { this.name = name; }
     public Integer getChairs() { return chairs; }
     public void setChairs(Integer chairs) { this.chairs = chairs; }
-    public Float getArea() { return area; }
-    public void setArea(Float area) { this.area = area; }
     public Boolean getHasProjector() { return hasProjector; }
     public void setHasProjector(Boolean hasProjector) { this.hasProjector = hasProjector; }
     public ClassroomStatus getStatus() { return status; }

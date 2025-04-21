@@ -39,7 +39,6 @@ public class ClassroomController {
         Classroom classroom = new Classroom();
         classroom.setName(classroomRequest.getName());
         classroom.setChairs(classroomRequest.getChairs());
-        classroom.setArea(classroomRequest.getArea());
         classroom.setHasProjector(classroomRequest.getHasProjector());
         classroom.setStatus(classroomRequest.getStatus());
         classroom.setFloor(classroomRequest.getFloor());
