@@ -42,8 +42,7 @@ public class ClassroomController {
         classroom.setHasProjector(classroomRequest.getHasProjector());
         classroom.setStatus(classroomRequest.getStatus());
         classroom.setFloor(classroomRequest.getFloor());
-        classroom.setXCoord(classroomRequest.getXCoord());
-        classroom.setYCoord(classroomRequest.getYCoord());
+
         
         classroomRepository.save(classroom);
         

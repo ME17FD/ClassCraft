@@ -26,12 +26,7 @@ public class ClassroomRequest {
     @NotNull(message = "Floor number is required")
     @Min(value = 0, message = "Floor number cannot be negative")
     private Integer floor;
-    
-    @NotNull(message = "X coordinate is required")
-    private Integer xCoord;
-    
-    @NotNull(message = "Y coordinate is required")
-    private Integer yCoord;
+
     
     // Getters and Setters
     public String getName() { return name; }
@@ -44,8 +39,5 @@ public class ClassroomRequest {
     public void setStatus(ClassroomStatus status) { this.status = status; }
     public Integer getFloor() { return floor; }
     public void setFloor(Integer floor) { this.floor = floor; }
-    public Integer getXCoord() { return xCoord; }
-    public void setXCoord(Integer xCoord) { this.xCoord = xCoord; }
-    public Integer getYCoord() { return yCoord; }
-    public void setYCoord(Integer yCoord) { this.yCoord = yCoord; }
+
 }

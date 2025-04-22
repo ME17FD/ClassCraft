@@ -31,12 +31,7 @@ public class Classroom {
     private ClassroomStatus status;
     
     private Integer floor;
-    
-    @Column(name = "x_coord")
-    private Integer xCoord;
-    
-    @Column(name = "y_coord")
-    private Integer yCoord;
+
     
     @ManyToOne
     @JoinColumn(name = "floor_id")
@@ -55,10 +50,6 @@ public class Classroom {
     public void setStatus(ClassroomStatus status) { this.status = status; }
     public Integer getFloor() { return floor; }
     public void setFloor(Integer floor) { this.floor = floor; }
-    public Integer getXCoord() { return xCoord; }
-    public void setXCoord(Integer xCoord) { this.xCoord = xCoord; }
-    public Integer getYCoord() { return yCoord; }
-    public void setYCoord(Integer yCoord) { this.yCoord = yCoord; }
     public Floor getFloorEntity() { return floorEntity; }
     public void setFloorEntity(Floor floorEntity) { this.floorEntity = floorEntity; }
 }

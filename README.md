@@ -1,6 +1,6 @@
 # University Planning Application
 
-A web-based university planning system that allows professors and PhD students to reserve classrooms, view personalized timetables, and export them as PDFs. The application provides an administrative interface for managing users, physical classroom layouts, scheduling, and maintenance reports.
+A web-based university planning system that allows professors and PhD students to reserve classrooms, view personalized timetables, and export them as PDFs. The application provides an administrative interface for managing users, scheduling, and maintenance reports.
 
 ## Features
 
@@ -17,8 +17,7 @@ A web-based university planning system that allows professors and PhD students t
 #### Administrator
 - Approve or reject new user registrations.
 - Manage users (edit, delete, suspend).
-- Create and manage **floors**, displayed as a **grid layout**.
-- Add/edit/delete **classrooms** on the floor grid:
+- Manage **classrooms** on the floor grid:
   - Number of chairs
   - Space (in m²)
   - Projector (optional)
@@ -38,11 +37,8 @@ A web-based university planning system that allows professors and PhD students t
 
 ## Classroom & Floor Management
 
-- Admins can create **floors** using a **grid-based layout** to mimic real positioning.
-- Classrooms can be placed on grid coordinates visually.
 - Each classroom contains:
   - Number of chairs
-  - Area (m²)
   - Optional projector
   - Current status: Available / Reserved / Out of Commission
 
@@ -71,7 +67,6 @@ A web-based university planning system that allows professors and PhD students t
 
 ### Frontend
 - **React** – user interface
-- **Drag-and-drop or grid libraries** for visual floor layout (e.g., `react-grid-layout`)
 - Communicates with Spring Boot via REST APIs
 
 ---
