@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
+import hoveravatar from "../../assets/pics/image.png";
 import styles from "../../styles/Sidebar.module.css";
 
 export default function Sidebar() {
@@ -21,7 +22,11 @@ export default function Sidebar() {
       <button
         className={`${styles.toggleButton} ${isOpen ? styles.hidden : ""}`}
         onClick={toggleSidebar}>
-        <img src="" alt="Toggle menu" className={styles.toggleImage} />
+        <img
+          src={hoveravatar}
+          alt="Toggle menu"
+          className={styles.toggleImage}
+        />
       </button>
 
       {/* Sidebar */}
@@ -35,7 +40,7 @@ export default function Sidebar() {
         <div className={styles.profileSection}>
           <div className={styles.profileCircle}>
             <img
-              src="" // Remplacez par votre image
+              src={hoveravatar} // Remplacez par votre image
               alt="Profil"
               className={styles.profileImage}
             />

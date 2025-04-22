@@ -33,7 +33,7 @@ export default function BuildingViewer({
       <OrbitControls
         enablePan={false}
         enableZoom={true}
-        enableRotate={false}
+        enableRotate={true}
         minDistance={5}
         maxDistance={50}
       />

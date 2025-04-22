@@ -1,5 +1,6 @@
-import { Box, Text } from "@react-three/drei";
+import { Text, RoundedBox } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
+import * as THREE from "three";
 import { RoomDetails } from "../../types/BuildingTypes";
 
 interface RoomProps extends RoomDetails {
@@ -14,20 +15,19 @@ export default function Room({
   name,
 }: RoomProps) {
   const color = status === "reserved" ? "#ff4444" : "#44ff44";
+  const radius = 0.1; // Rayon des coins arrondis
 
   return (
     <group position={position} onClick={onClick} name={name}>
-      {/* La boîte */}
-      <mesh>
-        <Box args={dimensions}>
-          <meshStandardMaterial color={color} />
-        </Box>
-      </mesh>
+      {/* Boîte principale avec bords arrondis */}
+      <RoundedBox args={dimensions} radius={radius} smoothness={4}>
+        <meshStandardMaterial color={color} />
+      </RoundedBox>
 
-      {/* Le texte au-dessus de la boîte */}
+      {/* Texte au-dessus de la boîte */}
       <Text
-        position={[0, dimensions[1] + 0.2, 0]} // Position Y = demi-hauteur de la boîte + un petit offset
-        fontSize={1.2}
+        position={[0, dimensions[1] / 2 + 0.5, 0]}
+        fontSize={1}
         color="black"
         anchorX="center"
         anchorY="middle">
