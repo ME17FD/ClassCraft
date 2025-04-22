@@ -1,8 +1,8 @@
 // src/components/Register.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../services/authService';
-import { SignupRequest } from '../types/auth';
+import { register } from '../../services/authService';
+import { SignupRequest } from '../../types/auth';
 import '../styles/Register.css';
 
 const Register: React.FC = () => {

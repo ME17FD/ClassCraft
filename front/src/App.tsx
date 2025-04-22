@@ -1,8 +1,8 @@
 // src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
+import Login from './component/ui/Login';
+import Register from './component/ui/Register';
 import SchemaViewer from './component/ui/SchemaViewer';
 
 const App: React.FC = () => {

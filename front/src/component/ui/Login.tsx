@@ -1,8 +1,8 @@
 // src/components/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/authService';
-import { LoginRequest } from '../types/auth';
+import { login } from '../../services/authService';
+import { LoginRequest } from '../../types/auth';
 import '../styles/Login.css'; // Assure-toi que ce chemin est correct
 
 const Login: React.FC = () => {
