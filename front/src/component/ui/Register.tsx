@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../services/authService';
 import { SignupRequest } from '../../types/auth';
-import '../styles/Register.css';
+import '../../styles//Register.css';
 
 const Register: React.FC = () => {
   const [signupData, setSignupData] = useState<SignupRequest>({
