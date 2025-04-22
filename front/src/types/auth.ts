@@ -10,7 +10,7 @@ export interface LoginRequest {
     firstName?: string;
     lastName?: string;
     phone?: string;
-    roles?: string[];
+    role?: string;
   }
   
   export interface User {

@@ -76,7 +76,7 @@ export const register = async (signupData: SignupRequest): Promise<User> => {
       firstName: signupData.firstName || "",
       lastName: signupData.lastName || "",
       phone: signupData.phone || "",
-      roles: signupData.roles || ["ROLE_PROFESSOR"],
+      role: signupData.role || "ROLE_PROFESSOR",
     }),
   });
 

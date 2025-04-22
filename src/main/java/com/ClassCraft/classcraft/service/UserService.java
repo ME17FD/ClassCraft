@@ -2,7 +2,6 @@ package com.ClassCraft.classcraft.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,13 +21,13 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     // Register a new user
-    public User registerUser(String firstName, String lastName, String email, String Hashedpassword, Set<ERole> roles) {
+    public User registerUser(String firstName, String lastName, String email, String Hashedpassword,String phone, ERole role) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new RuntimeException("Email already registered");
         }
     
-        User newUser = new User(firstName, lastName, email, Hashedpassword);
-        newUser.setRoles(roles);
+        User newUser = new User(firstName, lastName, email, Hashedpassword,phone,role);
+        newUser.setRole(role);
         return userRepository.save(newUser);
     }
 

@@ -1,7 +1,5 @@
 package com.ClassCraft.classcraft.dto;
 
-import java.util.Set;
-
 import com.ClassCraft.classcraft.model.ERole;
 
 import jakarta.validation.constraints.Email;
@@ -31,7 +29,7 @@ public class SignupRequest {
     private String phone;
 
     // Accept role as a string to be converted into ERole in service
-    private Set<ERole> roles;
+    private ERole role;
     // Getters and setters
 
 
@@ -54,11 +52,11 @@ public class SignupRequest {
 
     
 
-    public Set<ERole> getRoles() {
-        return roles;
+    public ERole getRole() {
+        return role;
     }
-    public void setRoles(Set<ERole> roles) {
-        this.roles = roles;
+    public void setRole(ERole role) {
+        this.role = role;
     }
 
     public String getFirstName() {

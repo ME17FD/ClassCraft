@@ -1,18 +1,11 @@
 package com.ClassCraft.classcraft.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
@@ -52,10 +45,8 @@ public class User {
 
     private boolean approved = true;
 
-    @ElementCollection(targetClass = ERole.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<ERole> roles = new HashSet<>();
+    private ERole role;
 
     // Constructors
     public User() {}
@@ -74,22 +65,16 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.roles.add(role);
+        this.role = role;
     }
 
-    public User(String firstName, String lastName, String email, String password, Set<ERole> roles) {
+    
+    public User(String firstName, String lastName, String email, String password,String phone , ERole role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.roles.addAll(roles);
-    }
-    public User(String firstName, String lastName, String email, String password,String phone , Set<ERole> roles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.roles.addAll(roles);
+        this.role = role;
     }
 
     // Getters and Setters
@@ -107,20 +92,15 @@ public class User {
     public void setPhone(String phone) { this.phone = phone; }
     public boolean isApproved() { return approved; }
     public void setApproved(boolean approved) { this.approved = approved; }
-    public Set<ERole> getRoles() { return roles; }
-    public void setRoles(Set<ERole> roles) { this.roles = roles; }
+    public ERole getRole() { return role; }
+    public void setRole(ERole role) { this.role = role; }
     
 
-    // Role management methods
-    public void addRole(ERole role) {
-        this.roles.add(role);
-    }
+    
     
     public boolean hasRole(ERole role) {
-        return this.roles.contains(role);
+        return this.role ==role;
     }
     
-    public void removeRole(ERole role) {
-        this.roles.remove(role);
-    }
+    
 }

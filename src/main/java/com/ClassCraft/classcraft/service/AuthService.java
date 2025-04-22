@@ -1,8 +1,6 @@
 package com.ClassCraft.classcraft.service;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.ClassCraft.classcraft.dto.LoginRequest;
 import com.ClassCraft.classcraft.dto.SignupRequest;
-import com.ClassCraft.classcraft.model.ERole;
 import com.ClassCraft.classcraft.model.User;
 
 @Service
@@ -41,14 +38,7 @@ public class AuthService {
         }
 
 
-        // Add roles directly as ERole
-        Set<ERole> roles = request.getRoles().stream()
-                .collect(Collectors.toSet());
-
-        // If no roles are provided, default to ROLE_STUDENT
-        if (roles.isEmpty()) {
-            roles.add(ERole.ROLE_STUDENT);  // Default role if none provided
-        }
+        
 
         // Create the new user with the appropriate roles
         User newUser = new User(
@@ -56,7 +46,8 @@ public class AuthService {
                 request.getLastName(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
-                roles
+                request.getPhone(),
+                request.getRole()
         );
 
         // Save the user to the database
@@ -65,7 +56,9 @@ public class AuthService {
                 newUser.getLastName(),
                 newUser.getEmail(),
                 newUser.getHashedPassword(),
-                roles
+                request.getPhone(),
+                request.getRole()
+
         );
     }
 
