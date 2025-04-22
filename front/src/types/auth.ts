@@ -19,6 +19,6 @@ export interface LoginRequest {
     firstName?: string;
     lastName?: string;
     phone?: string;
-    roles?: string[];
+    role?: string;
     // Add other user properties as needed
   }

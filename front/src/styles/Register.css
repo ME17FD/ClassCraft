@@ -1,0 +1,85 @@
+/* src/styles/Register.css */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .register-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  }
+  
+  .register-card {
+    background-color: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+  }
+  
+  .register-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #1e3a8a;
+  }
+  
+  .register-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+  }
+  
+  .register-error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .register-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .register-button {
+    width: 100%;
+    background-color: #2563eb;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .register-button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .login-text {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .login-text a {
+    color: #2563eb;
+    text-decoration: none;
+  }
+  
+  .login-text a:hover {
+    text-decoration: underline;
+  }
+  

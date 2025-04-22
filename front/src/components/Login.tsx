@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../services/authService';
 import { LoginRequest } from '../types/auth';
+import '../styles/Login.css'; // Assure-toi que ce chemin est correct
 
 const Login: React.FC = () => {
   const [loginData, setLoginData] = useState<LoginRequest>({
@@ -25,104 +26,63 @@ const Login: React.FC = () => {
 
     try {
       const user = await login(loginData);
-      // Handle successful login (store token, redirect, etc.)
-      console.log('Login successful:', user);
-      navigate('/dashboard'); // Redirect to dashboard or home page
+      if(user.role != "ROLE_ADMIN"){
+      navigate('/dashboard');}
+      else{
+        navigate('/admin');
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      setError(err instanceof Error ? err.message : 'Échec de la connexion');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span className="block sm:inline">{error}</span>
-          </div>
-        )}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <input type="hidden" name="remember" value="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={loginData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={loginData.password}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+    <div className="login-wrapper">
+      <div className="login-card">
+        <h2 className="login-title">Connexion à ClassCraft</h2>
+        <p className="login-subtitle">Veuillez entrer vos identifiants</p>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Remember me
-              </label>
-            </div>
+        {error && <div className="login-error">{error}</div>}
 
-            <div className="text-sm">
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Forgot your password?
-              </a>
-            </div>
-          </div>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Adresse Email"
+            required
+            value={loginData.email}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Mot de passe"
+            required
+            value={loginData.password}
+            onChange={handleChange}
+          />
 
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+          <div className="login-options">
+            <span
+              className="forgot-password"
+              onClick={() =>
+                alert("Veuillez contacter l'administrateur pour réinitialiser votre mot de passe.")
+              }
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </button>
+              Mot de passe oublié ?
+            </span>
           </div>
+
+          <button type="submit" className="login-button" disabled={isLoading}>
+            {isLoading ? 'Connexion...' : 'Se connecter'}
+          </button>
         </form>
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
-            <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-              Sign up
-            </a>
-          </p>
-        </div>
+
+        <p className="signup-text">
+          Pas de compte ? <a href="/register">Créer un compte</a>
+        </p>
       </div>
     </div>
   );
