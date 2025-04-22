@@ -1,9 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiLogOut } from "react-icons/fi";
 import styles from "../../styles/Sidebar.module.css";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { isAuthenticated, logout, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, navigate]);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -14,44 +30,36 @@ export default function Sidebar() {
       {isOpen && (
         <div
           className={styles.overlay}
-          onClick={toggleSidebar} // Ferme la sidebar si on clique sur l'overlay
+          onClick={toggleSidebar}
         />
       )}
-      {/* Bouton de toggle (en haut à gauche) */}
       <button
         className={`${styles.toggleButton} ${isOpen ? styles.hidden : ""}`}
         onClick={toggleSidebar}>
         <img src="" alt="Toggle menu" className={styles.toggleImage} />
       </button>
 
-      {/* Sidebar */}
       <div className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
-        {/* Bouton de fermeture (en haut à droite de la sidebar) */}
         <button className={styles.closeButton} onClick={toggleSidebar}>
           ×
         </button>
 
-        {/* Photo + Nom */}
         <div className={styles.profileSection}>
           <div className={styles.profileCircle}>
-            <img
-              src="" // Remplacez par votre image
-              alt="Profil"
-              className={styles.profileImage}
-            />
+            <img src="" alt="Profil" className={styles.profileImage} />
           </div>
-          <h3 className={styles.profileName}>John Doe</h3>
+          <h3 className={styles.profileName}>
+            {user?.firstName ?? 'Utilisateur'} {user?.lastName ?? ''}
+          </h3>
         </div>
 
-        {/* Boutons de navigation */}
         <div className={styles.navButtons}>
           <button className={styles.navButton}>Map</button>
           <button className={styles.navButton}>Emplois</button>
           <button className={styles.navButton}>Profile</button>
         </div>
 
-        {/* Bouton de déconnexion (en bas) */}
-        <button className={styles.logoutButton}>
+        <button className={styles.logoutButton} onClick={handleLogout}>
           <FiLogOut className={styles.logoutIcon} />
         </button>
       </div>

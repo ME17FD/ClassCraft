@@ -1,9 +1,8 @@
-// src/components/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/authService';
 import { LoginRequest } from '../../types/auth';
-import '../../styles//Login.css'; // Assure-toi que ce chemin est correct
+import { useAuth } from '../../context/AuthContext'; // ✅ use the context
+import '../../styles/Login.css';
 
 const Login: React.FC = () => {
   const [loginData, setLoginData] = useState<LoginRequest>({
@@ -13,6 +12,8 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const { login, user } = useAuth(); // ✅ grab login from AuthContext
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,12 +26,17 @@ const Login: React.FC = () => {
     setError(null);
 
     try {
-      const user = await login(loginData);
-      if(user.role != "ROLE_ADMIN"){
-      navigate('/dashboard');}
-      else{
+      await login(loginData.email, loginData.password); // ✅ use context login
+
+      // Navigate based on role (read from localStorage or context)
+      const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+
+      if (storedUser.role !== "ROLE_ADMIN") {
+        navigate('/dashboard');
+      } else {
         navigate('/admin');
       }
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Échec de la connexion');
     } finally {
