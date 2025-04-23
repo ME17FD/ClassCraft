@@ -1,0 +1,195 @@
+/* StudentDashboard.module.css */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto 0 200px;
+    padding: 50px 40px;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.navTabs {
+    display: flex;
+    gap: 15px;
+}
+
+.tabButton {
+    padding: 20px 40px;
+    border: none;
+    background: #f1f5f9;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    color: #64748b;
+}
+
+.tabButton:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+}
+
+.tabButton.active {
+    background: #3b82f6;
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.tabContent {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+
+/* Emploi du temps */
+
+.scheduleGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.dayColumn {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.dayColumn h3 {
+    color: #3b82f6;
+    margin-bottom: 15px;
+}
+
+.courseCard {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.courseTime {
+    color: #64748b;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.courseSubject {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.courseType {
+    background: #e2e8f0;
+    color: #475569;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-size: 0.8em;
+}
+
+.courseRoom {
+    color: #94a3b8;
+    font-size: 0.85em;
+}
+
+
+/* Examens */
+
+.examsList {
+    display: grid;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.examCard {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.examHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.examDate {
+    color: #3b82f6;
+    font-weight: 500;
+}
+
+.examDetails {
+    display: flex;
+    gap: 25px;
+    color: #64748b;
+}
+
+
+/* Groupes */
+
+.groupCard {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.groupSection {
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.classmates {
+    margin-top: 20px;
+}
+
+.classmateItem {
+    padding: 10px;
+    margin: 8px 0;
+    background: #f8fafc;
+    border-radius: 6px;
+}
+
+
+/* Animations */
+
+.fadeIn {
+    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .container {
+        margin-left: 30px;
+        padding: 30px 20px;
+    }
+
+    .scheduleGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabButton {
+        padding: 15px 25px;
+        font-size: 1em;
+    }
+}

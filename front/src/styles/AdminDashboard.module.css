@@ -1,0 +1,421 @@
+/* AdminDashboard.module.css */
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto 0 200px;
+    padding: 50px 40px;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.navTabs {
+    display: flex;
+    gap: 15px;
+}
+
+.tabButton {
+    padding: 20px 40px;
+    border: none;
+    background: #f1f5f9;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    color: #64748b;
+}
+
+.tabButton:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+}
+
+.tabButton.active {
+    background: #3b82f6;
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.tabContent {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+
+/* Stats */
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.statCard {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.statValue {
+    font-size: 2.5em;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 15px 0;
+}
+
+.statTrend {
+    color: #64748b;
+    font-size: 0.9em;
+}
+
+
+/* Table */
+
+.usersTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+.usersTable th,
+.usersTable td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.usersTable th {
+    background: #f8fafc;
+}
+
+.roleBadge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: #e2e8f0;
+    color: #475569;
+    font-size: 0.85em;
+}
+
+
+/* Boutons */
+
+.tableButton {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.tableButtonDanger {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+/* Plannings */
+
+.planningsGrid {
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    margin-top: 40px;
+}
+
+.planningCard {
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.planMeta {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    color: #64748b;
+}
+
+.planActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.actionButton {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.actionButtonDanger {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+    .container {
+        margin-left: 100px;
+        padding: 40px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin-left: 30px;
+        padding: 30px 20px;
+    }
+
+    .usersTable {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .planningsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Garder les mêmes animations que le dashboard professeur */
+
+.fadeIn {
+    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Ajouts dans AdminDashboard.module.css */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 200px;
+    /* Correspond à la marge gauche */
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50px);
+    animation: modalSlideIn 0.3s ease-out forwards;
+}
+
+.modalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+/* Adaptation responsive */
+
+@media (max-width: 768px) {
+    .modalOverlay {
+        left: 0;
+    }
+
+    .modalContent {
+        padding: 25px;
+        width: 95%;
+    }
+}
+
+
+/* Modal Styles */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.modalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.modalForm .formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.modalForm .submitButton {
+    align-self: flex-start;
+    padding: 0.75rem 2rem;
+}
+
+
+/* Animations */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .modalForm .formRow {
+        grid-template-columns: 1fr;
+    }
+
+    .modalContent {
+        width: 95%;
+        padding: 1.5rem;
+    }
+}
+
+
+/* AdminDashboard.module.css */
+
+
+/* ... (styles existants) ... */
+
+
+/* Styles des notifications */
+
+.notificationsContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification {
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: slideIn 0.3s ease-out;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.notification.success {
+    background: #4CAF50;
+}
+
+.notification.error {
+    background: #f44336;
+}
+
+.notificationClose {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0 5px;
+    margin-left: auto;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+
+/* Toggle de simulation */
+
+.simulationToggle {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.simulationToggle label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-size: 0.9em;
+}
