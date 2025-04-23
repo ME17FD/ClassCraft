@@ -1,16 +1,21 @@
 package com.ClassCraft.classcraft.service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ClassCraft.classcraft.model.*;
-import com.ClassCraft.classcraft.repository.*;
-import com.ClassCraft.classcraft.dto.*;
-
-
-import java.util.List;
-import java.util.stream.Collectors;
+import com.ClassCraft.classcraft.dto.ClassroomDTO;
+import com.ClassCraft.classcraft.dto.CourseDTO;
+import com.ClassCraft.classcraft.dto.TimetableDTO;
+import com.ClassCraft.classcraft.dto.TimetableEntryDTO;
+import com.ClassCraft.classcraft.dto.UserDTO;
+import com.ClassCraft.classcraft.model.Classroom;
+import com.ClassCraft.classcraft.model.Course;
+import com.ClassCraft.classcraft.model.Timetable;
+import com.ClassCraft.classcraft.model.TimetableEntry;
+import com.ClassCraft.classcraft.model.User;
+import com.ClassCraft.classcraft.repository.TimetableRepository;
 
 @Service
 public class TimetableService {
@@ -22,11 +27,8 @@ public class TimetableService {
         this.timetableRepository = timetableRepository;
     }
 
-    public List<TimetableDTO> getAllTimetables() {
-        List<Timetable> timetables = timetableRepository.findAll();
-        return timetables.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<Timetable> getAllTimetables() {
+        return timetableRepository.findAll();
     }
 
     private TimetableDTO convertToDTO(Timetable timetable) {
