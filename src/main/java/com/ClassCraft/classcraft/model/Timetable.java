@@ -2,6 +2,8 @@ package com.ClassCraft.classcraft.model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +27,7 @@ public class Timetable {
 
 
     @OneToMany(mappedBy = "timetable", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference  // To manage the serialization of the Timetable -> TimetableEntry relationship
     private Set<TimetableEntry> entries;
 
     // Getters and Setters

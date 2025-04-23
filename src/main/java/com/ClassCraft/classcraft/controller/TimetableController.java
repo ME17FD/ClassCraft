@@ -2,13 +2,14 @@ package com.ClassCraft.classcraft.controller;
 
 import  java.util.List;
 
-import  org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import  org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ClassCraft.classcraft.model.Timetable;
+import com.ClassCraft.classcraft.dto.TimetableDTO;
 import com.ClassCraft.classcraft.service.TimetableService;
+
 
 @RestController
 @RequestMapping("/api/timetables")
@@ -22,7 +23,7 @@ public class TimetableController {
     }
 
     @GetMapping
-    public List<Timetable> getAllTimetables() {
+    public List<TimetableDTO> getAllTimetables() {
         return timetableService.getAllTimetables();
     }
 }

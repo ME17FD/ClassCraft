@@ -1,45 +1,61 @@
 package com.ClassCraft.classcraft.dto;
 
-import java.time.DayOfWeek;
+import com.ClassCraft.classcraft.model.TimetableEntry;
 
-import com.ClassCraft.classcraft.model.TimeSlot;
-
+// TimetableEntryDTO.java
 public class TimetableEntryDTO {
-    private Long id;
-    private DayOfWeek dayOfWeek;
-    private TimeSlot timeSlot;
-    private ClassroomDTO classroom;
-    private CourseDTO course;
-    public Long getId() {
-        return id;
+    private String dayOfWeek;
+    private String timeSlot;
+    private String courseName;
+    private String classroomName;
+
+    public TimetableEntryDTO(String dayOfWeek, String timeSlot, String courseName, String classroomName) {
+        this.dayOfWeek = dayOfWeek;
+        this.timeSlot = timeSlot;
+        this.courseName = courseName;
+        this.classroomName = classroomName;
     }
-    public void setId(Long id) {
-        this.id = id;
+
+    public static TimetableEntryDTO fromEntity(TimetableEntry entry) {
+        return new TimetableEntryDTO(
+            entry.getDayOfWeek().toString(),
+            entry.getTimeSlot().name(),
+            entry.getCourse().getName(),
+            entry.getClassroom().getName()
+        );
     }
-    public DayOfWeek getDayOfWeek() {
+
+    public String getDayOfWeek() {
         return dayOfWeek;
     }
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+
+    public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
-    public TimeSlot getTimeSlot() {
+
+    public String getTimeSlot() {
         return timeSlot;
     }
-    public void setTimeSlot(TimeSlot timeSlot) {
+
+    public void setTimeSlot(String timeSlot) {
         this.timeSlot = timeSlot;
     }
-    public ClassroomDTO getClassroom() {
-        return classroom;
+
+    public String getCourseName() {
+        return courseName;
     }
-    public void setClassroom(ClassroomDTO classroom) {
-        this.classroom = classroom;
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
-    public CourseDTO getCourse() {
-        return course;
+
+    public String getClassroomName() {
+        return classroomName;
     }
-    public void setCourse(CourseDTO course) {
-        this.course = course;
+
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
     }
-    
-    // Constructors, getters, and setters
+
+    // Getters and setters
 }

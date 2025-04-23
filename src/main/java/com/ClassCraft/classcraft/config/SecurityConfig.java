@@ -29,6 +29,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/public/**", "/hello", "/about").permitAll()
                 .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/api/timetables").permitAll()
                 .anyRequest().authenticated()
             )
             

@@ -5,6 +5,7 @@ import Login from './component/ui/Login';
 import Register from './component/ui/Register';
 import SchemaViewer from './component/ui/SchemaViewer';
 import { AuthProvider } from './context/AuthContext'; // ← import AuthProvider
+import TimetableViewer from "./component/TimetableViewer";
 
 const App: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<TimetableViewer />} />
           <Route path="/dashboard" element={<SchemaViewer />} />
         </Routes>
       </Router>
