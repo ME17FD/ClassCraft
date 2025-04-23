@@ -6,10 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ClassCraft.classcraft.dto.TimetableDTO;
-import com.ClassCraft.classcraft.dto.TimetableEntryDTO;
-import com.ClassCraft.classcraft.model.Timetable;
-import com.ClassCraft.classcraft.model.TimetableEntry;
+import com.ClassCraft.classcraft.dto.*;
+import com.ClassCraft.classcraft.model.*;
 import com.ClassCraft.classcraft.repository.TimetableRepository;
 
 @Service
@@ -42,10 +40,35 @@ public class TimetableService {
 
     private TimetableEntryDTO convertEntryToDTO(TimetableEntry entry) {
         return new TimetableEntryDTO(
+            convertClassroomToDTO(entry.getClassroom()),
+
+            convertCourseToDTO(entry.getCourse()),
+
                 entry.getDayOfWeek().toString(),
-                entry.getTimeSlot().name(),
-                entry.getClassroom().getName(),
-                entry.getCourse().getName()
+                entry.getTimeSlot().name()
         );
     }
+
+    private CourseDTO convertCourseToDTO(Course course) {
+    // Make sure you convert the professor's data as well
+    UserDTO professorDTO = new UserDTO(course.getProfessor().getId(), course.getProfessor().getFirstName(), course.getProfessor().getLastName(),course.getProfessor().getEmail());
+    return new CourseDTO(
+            course.getId(),
+            course.getName(),
+            course.getDescription(),
+            professorDTO
+    );
+}
+
+private ClassroomDTO convertClassroomToDTO(Classroom classroom) {
+    return new ClassroomDTO(
+            classroom.getId(),
+            classroom.getName(),
+            classroom.getChairs(),
+            classroom.getHasProjector(),
+            classroom.getStatus(),
+            classroom.getFloor()
+    );
+}
+
 }

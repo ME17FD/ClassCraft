@@ -1,11 +1,9 @@
 package com.ClassCraft.classcraft.dto;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.ClassCraft.classcraft.model.Timetable;
-import java.util.stream.Collectors;
 
 // TimetableDTO.java
 public class TimetableDTO {
@@ -21,8 +19,9 @@ public class TimetableDTO {
 
     public static TimetableDTO fromEntity(Timetable timetable) {
         List<TimetableEntryDTO> entryDTOs = timetable.getEntries().stream()
-            .map(TimetableEntryDTO::fromEntity)
-            .collect(Collectors.toList());
+    .map(TimetableEntryDTO::fromEntity)
+    .collect(Collectors.toList());
+
         return new TimetableDTO(timetable.getId(), timetable.getSemester(), entryDTOs);
     }
     // Getters and setters

@@ -10,12 +10,18 @@ export enum DayOfWeek {
 }
 
 export enum TimeSlot {
-  SLOT_1 = "SLOT_1",
-  SLOT_2 = "SLOT_2",
-  SLOT_3 = "SLOT_3",
-  SLOT_4 = "SLOT_4",
-  SLOT_5 = "SLOT_5",}
-
+    SLOT_1 = "SLOT_1",
+    SLOT_2 = "SLOT_2",
+    SLOT_3 = "SLOT_3",
+    SLOT_4 = "SLOT_4",
+  }
+  
+  export const timeSlotRanges: Record<TimeSlot, { start: string, end: string }> = {
+    SLOT_1: { start: "08:00", end: "10:00" },
+    SLOT_2: { start: "10:15", end: "12:15" },
+    SLOT_3: { start: "13:00", end: "15:00" },
+    SLOT_4: { start: "15:15", end: "17:15" },
+  };
 export enum ClassroomStatus {
   AVAILABLE = "AVAILABLE",
   UNDER_MAINTENANCE = "UNDER_MAINTENANCE",

@@ -1,4 +1,3 @@
-// components/TimetableViewer.tsx
 import React, { useEffect, useState } from "react";
 import { fetchTimetables } from "../services/api";
 import {
@@ -6,6 +5,7 @@ import {
   DayOfWeek,
   TimeSlot,
   TimetableEntry,
+  timeSlotRanges,
 } from "../types/timetable";
 import {
   Box,
@@ -61,11 +61,9 @@ const TimetableViewer: React.FC = () => {
       Record<TimeSlot, TimetableEntry[]>
     >;
 
-    // Initialize all days
+    // Initialize all days and time slots
     Object.values(DayOfWeek).forEach((day) => {
       entries[day] = {} as Record<TimeSlot, TimetableEntry[]>;
-
-      // Initialize all time slots for each day
       allTimeSlots.forEach((slot) => {
         entries[day][slot] = [];
       });
@@ -82,7 +80,6 @@ const TimetableViewer: React.FC = () => {
 
     if (currentTimetable) {
       currentTimetable.entries.forEach((entry) => {
-        // Ensure the dayOfWeek and timeSlot are valid and properly populated
         const { dayOfWeek, timeSlot } = entry;
         if (groupedEntries[dayOfWeek] && groupedEntries[dayOfWeek][timeSlot]) {
           groupedEntries[dayOfWeek][timeSlot].push(entry);
@@ -95,11 +92,27 @@ const TimetableViewer: React.FC = () => {
 
   if (loading) return <Typography>Loading...</Typography>;
   if (error) return <Typography color="error">{error}</Typography>;
-  if (timetables.length === 0)
-    return <Typography>No timetables available</Typography>;
+  if (timetables.length === 0) return <Typography>No timetables available</Typography>;
 
   const semesters = Array.from(new Set(timetables.map((t) => t.semester)));
   const groupedEntries = getGroupedEntries();
+
+  // Helper function for rendering course information
+  const renderCourseInfo = (course: any) => (
+    <>
+      <Typography variant="subtitle2">{course.name || "Course Name Not Available"}</Typography>
+      <Typography variant="body2">
+        Prof: {course.professor ? `${course.professor.firstName} ${course.professor.lastName}` : "Professor Info Not Available"}
+      </Typography>
+    </>
+  );
+
+  // Helper function for rendering classroom information
+  const renderClassroomInfo = (classroom: any) => (
+    <Typography variant="body2">
+      Room: {classroom.name || "Room Not Available"}
+    </Typography>
+  );
 
   return (
     <Box sx={{ p: 3 }}>
@@ -135,12 +148,14 @@ const TimetableViewer: React.FC = () => {
           <TableBody>
             {allTimeSlots.map((slot) => (
               <TableRow key={slot}>
-                <TableCell>{slot.replace("_", " ")}</TableCell>
+                <TableCell>
+                  {`${timeSlotRanges[slot].start} - ${timeSlotRanges[slot].end}`}
+                </TableCell>
                 {Object.values(DayOfWeek).map((day) => (
                   <TableCell key={`${day}-${slot}`}>
                     {groupedEntries[day][slot].length === 0 ? (
                       <Typography variant="body2" color="textSecondary">
-                        No classes
+                        {/* No entry in the timeslot */}
                       </Typography>
                     ) : (
                       groupedEntries[day][slot].map((entry, idx) => (
@@ -153,35 +168,8 @@ const TimetableViewer: React.FC = () => {
                             borderRadius: 1,
                           }}
                         >
-                          {/* Course information */}
-                          {entry.course ? (
-                            <>
-                              <Typography variant="subtitle2">
-                                {entry.course.name || "Course Name Not Available"}
-                              </Typography>
-                              <Typography variant="body2">
-                                Prof:{" "}
-                                {entry.course.professor
-                                  ? `${entry.course.professor.firstName} ${entry.course.professor.lastName}`
-                                  : "Professor Info Not Available"}
-                              </Typography>
-                            </>
-                          ) : (
-                            <Typography variant="body2" color="textSecondary">
-                              Course Info Not Available
-                            </Typography>
-                          )}
-
-                          {/* Classroom information */}
-                          {entry.classroom ? (
-                            <Typography variant="body2">
-                              Room: {entry.classroom.name || "Room Not Available"}
-                            </Typography>
-                          ) : (
-                            <Typography variant="body2" color="textSecondary">
-                              Classroom Info Not Available
-                            </Typography>
-                          )}
+                          {entry.course && renderCourseInfo(entry.course)}
+                          {entry.classroom && renderClassroomInfo(entry.classroom)}
                         </Box>
                       ))
                     )}
